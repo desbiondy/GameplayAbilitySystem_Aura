@@ -4,6 +4,7 @@
 #include "Player/AuraPlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Engine/LocalPlayer.h"
 #include <Interaction/EnemyInterface.h>
 #include <Character/AuraEnemy.h>
 
@@ -26,10 +27,25 @@ void AAuraPlayerController::BeginPlay()
 	Super::BeginPlay();
 	check(AuraContext);
 
-	
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	// Fix attempt on listening server play mode
+
+
+	if(const ULocalPlayer* LocalPlayer = Cast<ULocalPlayer>(Player))
+    {
+        if (UEnhancedInputLocalPlayerSubsystem* Subsystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
+        {
+           if (AuraContext)
+           {
+			   Subsystem->AddMappingContext(AuraContext, 0);
+              
+           }
+        }
+    }
+
+
+	/*UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	check(Subsystem);
-	Subsystem->AddMappingContext(AuraContext, 0);
+	Subsystem->AddMappingContext(AuraContext, 0);*/
 
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
