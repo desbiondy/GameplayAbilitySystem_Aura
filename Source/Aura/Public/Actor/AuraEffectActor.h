@@ -52,7 +52,7 @@ struct FGameplayEffectLayer
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Applied Effects")
 	EEffectRemovalPolicy EffectRemovalPolicy = EEffectRemovalPolicy::RemoveOnEndOverlap;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Applied Effects")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
 	int32 EffectLevel = 1;
 };
 
@@ -87,6 +87,7 @@ protected:
 	bool bDestroyOnEffectRemoval = false;
 
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
+
 
 
 };
